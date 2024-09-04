@@ -60,7 +60,6 @@ namespace WinFormsNetworkCalculator
             long ip4 = 0;
             string[] strParts = strDezOctet.Split(new string[] { "." },
             StringSplitOptions.RemoveEmptyEntries);
-            //for (int i = 0; i < strParts.Length; i++)
             for (int i = 0; i < 4; i++)
             {
                 string strDez = strParts[i];
@@ -71,6 +70,28 @@ namespace WinFormsNetworkCalculator
             }
             return ip4;
         }
+
+        /// <summary>
+        /// Berechnet aus der IP4-Oktett-Darstellung die interne 32Bit-Zahl in
+        /// Dezimaldarstellung. Diese dient als Grundlage für weitere Berechnungen.
+        /// </summary>
+        /// <param name="strBinOctet"></param>
+        /// <returns></returns>
+        static public long GetDezFromBin(string strBinOctet)
+        {
+            long ip4 = 0;
+            string[] strParts = strBinOctet.Split(new string[] { "." },
+            StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < 4; i++)
+            {
+                string strBin = strParts[i];
+                strBin = strBin.Trim();
+                byte byteOctet = Convert.ToByte(strBin, 2);
+                ip4 = ip4 * 256 + byteOctet;
+            }
+            return ip4;
+        }
+
         /// <summary>
         /// Bestimme aus der 32Bit-Zahl die binäre Oktett-Darstellung
         /// </summary>
@@ -128,6 +149,29 @@ namespace WinFormsNetworkCalculator
             }
             return strDezOctet;
         }
+
+        /// <summary>
+        /// Bestimme aus der Binär-Oktett-Darstellung die IP4 Oktett-Darstellung
+        /// </summary>
+        /// <param name="strBinOctet"></param>
+        /// <returns></returns>
+        static public string GetDezOctetFromBin(string strBinOctet)
+        {
+            string strDezOctet = "";
+            string[] strParts = strBinOctet.Split(new string[] { "." },
+            StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < 4; i++)
+            {
+                strParts[i] = strParts[i].Trim();
+                byte byteOctet = 0;
+                byteOctet = Convert.ToByte(strParts[i], 2);
+                strDezOctet += byteOctet.ToString();
+                if (i < 3)
+                    strDezOctet += ".";
+            }
+            return strDezOctet;
+        }
+
         /// <summary>
         /// Bestimme die Anzahl der Hosts aus dem CIDR-Suffix
         /// </summary>
