@@ -108,6 +108,7 @@
             textBoxAddress.Name = "textBoxAddress";
             textBoxAddress.Size = new Size(107, 23);
             textBoxAddress.TabIndex = 1;
+            textBoxAddress.Text = "192.168.2.111";
             // 
             // Form1
             // 

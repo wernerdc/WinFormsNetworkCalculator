@@ -11,17 +11,16 @@ namespace WinFormsNetworkCalculator
             comboBoxCidr.SelectedIndex = 8;
         }
 
-        private void buttonCalculateNetwork_Click(object sender, EventArgs e)
-        {
+        private void buttonCalculateNetwork_Click(object sender, EventArgs e) {
             string address = textBoxAddress.Text;
             int cidr = int.Parse(comboBoxCidr.Text);
 
             // check if address input is a valid IPv4 address
             if (!IP4Helper.CheckDezOctet(address)) {
-                WriteString("Ungültige IPv4 Adresse!"); 
+                WriteString("Ungültige IPv4 Adresse!");
                 return;
             }
-            
+
             // ipv4 in decimal as base for folllowing calculations
             long ipv4 = IP4Helper.GetDez(address);
 
@@ -33,7 +32,10 @@ namespace WinFormsNetworkCalculator
 
             string stringBinOctet = "11111111";
             byte byteBinOctet = Convert.ToByte(stringBinOctet, 2);      // ToByte at base of "2"
-            WriteString("binToDez", byteBinOctet.ToString(), "");
+            string testDezToBin = Convert.ToString(ipv4, 2);
+            //WriteString("binToDez", byteBinOctet.ToString(), $"{ipv4:###\\.###\\.###\\.###}");
+            WriteString("binToDez", byteBinOctet.ToString(), $"{testDezToBin}");
+            WriteString("binToDez", byteBinOctet.ToString(), $"{testDezToBin:00000000\\.00000000\\.00000000\\.00000000}");
 
             WriteString("Address:", dezOctet, binOctet);
 
@@ -52,17 +54,36 @@ namespace WinFormsNetworkCalculator
             WriteString("Wildcard:", wildcardDezOctet, wildcardBinOctet);
 
             // 4. network ID/address
+            string netId = "";
+            string[] binNetmaskParts = netmaskBinOctet.Split(new string[] { "." },
+                    StringSplitOptions.RemoveEmptyEntries);
+            string[] binIpParts = binOctet.Split(new string[] { "." },
+                    StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < 4; i++) {
+                byte bNetmask = Convert.ToByte(binNetmaskParts[i], 2);
+                byte bIp = Convert.ToByte(binIpParts[i], 2);
+                int octet = bNetmask & bIp;
+
+                //netId += $"{Convert.ToString(octet, 2),8:00000000}";
+                netId += $"{octet:B8}";
+                if (i < 3)
+                    netId += ".";
+            }
+            WriteString("NetworkID", IP4Helper.GetDezOctetFromBin(netId), netId);
+
+
+
             //string netIdAddress = "";
             //for (int i = 0; i < netmaskBinOctet.Length; i++)
             //{
-            //    if (netmaskBinOctet[i].ToString() == ".")
+            //    if (netmaskBinOctet[i] == '.')
             //    {
             //        netIdAddress += ".";
             //        continue;
             //    }
-            //    bool netmaskChar = netmaskBinOctet[i].;
-            //    string addressChar = binOctet[i].ToString();
-            //    if (netmaskChar & addressChar == 1)
+            //    char netmaskChar = netmaskBinOctet[i];
+            //    char addressChar = binOctet[i];
+            //    //if (netmaskChar & addressChar == 1)
             //}
 
             // test bin to dez/octet

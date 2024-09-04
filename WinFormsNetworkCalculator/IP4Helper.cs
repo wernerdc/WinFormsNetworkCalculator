@@ -20,7 +20,7 @@ namespace WinFormsNetworkCalculator
             if (!strDezOctet.Contains("."))
                 return false;
             string[] strParts = strDezOctet.Split(new string[] { "." },
-            StringSplitOptions.RemoveEmptyEntries);
+                    StringSplitOptions.RemoveEmptyEntries);
             if (strParts.Length != 4)
                 return false;
             for (int i = 0; i < strParts.Length; i++)
@@ -59,7 +59,8 @@ namespace WinFormsNetworkCalculator
         {
             long ip4 = 0;
             string[] strParts = strDezOctet.Split(new string[] { "." },
-            StringSplitOptions.RemoveEmptyEntries);
+                    StringSplitOptions.RemoveEmptyEntries);
+            
             for (int i = 0; i < 4; i++)
             {
                 string strDez = strParts[i];
@@ -72,7 +73,7 @@ namespace WinFormsNetworkCalculator
         }
 
         /// <summary>
-        /// Berechnet aus der IP4-Oktett-Darstellung die interne 32Bit-Zahl in
+        /// Berechnet aus der Binär-Oktett-Darstellung die interne 32Bit-Zahl in
         /// Dezimaldarstellung. Diese dient als Grundlage für weitere Berechnungen.
         /// </summary>
         /// <param name="strBinOctet"></param>
@@ -81,7 +82,8 @@ namespace WinFormsNetworkCalculator
         {
             long ip4 = 0;
             string[] strParts = strBinOctet.Split(new string[] { "." },
-            StringSplitOptions.RemoveEmptyEntries);
+                    StringSplitOptions.RemoveEmptyEntries);
+
             for (int i = 0; i < 4; i++)
             {
                 string strBin = strParts[i];
@@ -159,7 +161,7 @@ namespace WinFormsNetworkCalculator
         {
             string strDezOctet = "";
             string[] strParts = strBinOctet.Split(new string[] { "." },
-            StringSplitOptions.RemoveEmptyEntries);
+                    StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < 4; i++)
             {
                 strParts[i] = strParts[i].Trim();
