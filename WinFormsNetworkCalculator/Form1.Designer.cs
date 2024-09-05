@@ -26,7 +26,8 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             panel1 = new Panel();
             listBoxResults = new ListBox();
             label2 = new Label();
@@ -108,7 +109,7 @@
             textBoxAddress.Name = "textBoxAddress";
             textBoxAddress.Size = new Size(107, 23);
             textBoxAddress.TabIndex = 1;
-            textBoxAddress.Text = "192.168.2.111";
+            textBoxAddress.Text = "192.168.87.85";
             // 
             // Form1
             // 

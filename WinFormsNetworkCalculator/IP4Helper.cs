@@ -78,7 +78,7 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="strBinOctet"></param>
         /// <returns></returns>
-        static public long GetDezFromBin(string strBinOctet)
+        static public long GetDezFromBin(string strBinOctet)        // unused
         {
             long ip4 = 0;
             string[] strParts = strBinOctet.Split(new string[] { "." },
@@ -101,19 +101,33 @@ namespace WinFormsNetworkCalculator
         /// <returns></returns>
         static public string GetBinOctet(long ip4)
         {
+            // :B32 -> String Format, Binärdarstellung mit 32 Stellen
+            string strBin = $"{ip4:B32}";
+            string binOctet = "";
+            for (int i = 0; i < 4; i++)
+            {
+                binOctet += strBin.Substring(i * 8, 8);
+                if (i < 3)
+                    binOctet += ".";
+            }
+
+            return binOctet;
+        }
+        static public string GetBinOctet_alt(long ip4)
+        {
             string strBin = "";
             long lMod = 0;
             long lDiv = ip4;
-            // for Schleife notwendig für führende Nullen
+            //for Schleife notwendig für führende Nullen
             for (int i = 0; i < 32; i++)
-            {
-                lMod = lDiv % 2;
-                lDiv = lDiv / 2;
-                strBin = lMod.ToString() + strBin;
-                // Oktettdarstellung -> Punkt einfügen
-                if (i % 8 == 7 && i > 0 && i < 31)
-                    strBin = "." + strBin;
-            }
+                {
+                    lMod = lDiv % 2;
+                    lDiv = lDiv / 2;
+                    strBin = lMod.ToString() + strBin;
+                    // Oktettdarstellung -> Punkt einfügen
+                    if (i % 8 == 7 && i > 0 && i < 31)
+                        strBin = "." + strBin;
+                }
             return strBin;
         }
         /// <summary>
@@ -157,7 +171,7 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="strBinOctet"></param>
         /// <returns></returns>
-        static public string GetDezOctetFromBin(string strBinOctet)
+        static public string GetDezOctetFromBin(string strBinOctet)         // unused
         {
             string strDezOctet = "";
             string[] strParts = strBinOctet.Split(new string[] { "." },
