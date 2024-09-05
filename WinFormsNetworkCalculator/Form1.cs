@@ -2,6 +2,8 @@ namespace WinFormsNetworkCalculator
 {
     public partial class Form1 : Form
     {
+        private List<IPv4Address> _addresses = new();
+
         public Form1()
         {
             InitializeComponent();
@@ -13,17 +15,38 @@ namespace WinFormsNetworkCalculator
 
         private void buttonCalculateNetwork_Click(object sender, EventArgs e) {
             string address = textBoxAddress.Text;
-            int cidr = int.Parse(comboBoxCidr.Text);
+            string cidr = comboBoxCidr.Text;
 
             // check if address input is a valid IPv4 address
-            if (!IP4Helper.CheckDezOctet(address)) {
-                WriteString("Ungültige IPv4 Adresse!");
+            if (!IPv4Address.CheckDezOctet(address))
+            {
+                WriteString("Ungültige IPv4 Adresse");
                 return;
             }
 
-            // ipv4 in decimal as base for folllowing calculations
-            long ipv4 = IP4Helper.GetDez(address);
+            //if (!IP4Helper.CheckDezOctet(address)) {
+            //    WriteString("Ungültige IPv4 Adresse!");
+            //    return;
+            //}
 
+            // new IPv4Address instance
+            IPv4Address ipAddress = new IPv4Address(address, cidr);
+            // add to list 
+            _addresses.Add(ipAddress);
+
+            WriteString(ipAddress.GetIPv4Strings());
+            WriteString(ipAddress.GetNetmaskStrings());
+            WriteString(ipAddress.GetWildcardStrings());
+            WriteString(ipAddress.GetNetIdStrings());
+            WriteString(ipAddress.GetBroadcastStrings());
+            WriteString(ipAddress.GetHostMinStrings());
+            WriteString(ipAddress.GetHostMaxStrings());
+            WriteString(ipAddress.GetHostsStrings());
+
+            // ipv4 in decimal as base for folllowing calculations
+            //long ipv4 = IP4Helper.GetDez(address);
+            
+            /*
             // 1. address output
             string dezOctet = IP4Helper.GetDezOctet(ipv4);
             string binOctet = IP4Helper.GetBinOctet(ipv4);
@@ -65,6 +88,7 @@ namespace WinFormsNetworkCalculator
             // number of available host ips
             long hosts = IP4Helper.GetHosts(cidr);
             WriteString("Hosts:", hosts.ToString());
+            */
 
             // Test & Debugging
             //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
@@ -124,6 +148,11 @@ namespace WinFormsNetworkCalculator
         {
             string row = $"   {description,11}   {dezOctet,-15}   {binOctet}";
             listBoxResults.Items.Add(row);
+        }
+
+        private void WriteString(string[] ipStrings)
+        {
+            WriteString(ipStrings[0], ipStrings[1], ipStrings[2]);
         }
     }
 }
