@@ -10,23 +10,29 @@ namespace WinFormsNetworkCalculator
 {
     public class IPv4Address
     {
-        long IPv4 { get; }
-        int Cidr { get; }
-        long Netmask { get; }
-        long Wildcard { get; }
-        long NetId { get; }
-        long Broadcast { get; }
+        uint IPv4 { get; }
+        int Cidr { get; set; }
+        uint Netmask { get; set; }
+        uint Wildcard { get; }
+        uint NetId { get; }
+        uint Broadcast { get; }
 
-        public IPv4Address(string ipV4, string cidr)
+        // constructor with optional parameters
+        public IPv4Address(string ipV4 = "1.1.1.1", int cidr = 24)
         {
             IPv4 = GetDez(ipV4);
-            Cidr = int.Parse(cidr);
+            Cidr = cidr;
             Netmask = GetNetmaskDez(Cidr);
             Wildcard = GetWildcardDez();
             NetId = GetNetIdDez();
             Broadcast = GetBroadcastDez();
         }
 
+        public void updateCidr(int cidr)
+        {
+            Cidr = cidr;
+            Netmask = GetNetmaskDez(cidr);
+        }
 
         /// <summary>
         /// Berechnet aus der IP4-Oktett-Darstellung die interne 32Bit-Zahl in
@@ -34,9 +40,9 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="strDezOctet"></param>
         /// <returns></returns>
-        private long GetDez(string strDezOctet)
+        private uint GetDez(string strDezOctet)
         {
-            long ip4 = 0;
+            uint ip4 = 0;
             string[] strParts = strDezOctet.Split(new string[] { "." },
                     StringSplitOptions.RemoveEmptyEntries);
 
@@ -56,9 +62,9 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="cidr"></param>
         /// <returns></returns>
-        private long GetNetmaskDez(int cidr)
+        private uint GetNetmaskDez(int cidr)
         {
-            long lDez = 0;
+            uint lDez = 0;
             for (int i = 0; i < 32; i++)
             {
                 if (i < cidr)
@@ -69,23 +75,23 @@ namespace WinFormsNetworkCalculator
             return lDez;
         }
 
-        private long GetWildcardDez()
+        private uint GetWildcardDez()
         {
             // Bitwise complement operator ~
             // The ~ operator produces a bitwise complement of its operand by reversing each bit
-            uint wildcard = Convert.ToUInt32(Netmask);      // unsigned integer (uint) to avoid negative value from ~ operator
-            
-            return ~wildcard;
+            //uint wildcard = Convert.ToUInt32(Netmask);      
+            // unsigned integer (uint) to avoid negative value from ~ operator
+            return ~Netmask;
         }
 
-        private long GetNetIdDez()
+        private uint GetNetIdDez()
         {
             // Logical AND operator &
             // The & operator computes the bitwise logical AND of its integral operands:
             return IPv4 & Netmask;
         }
         
-        private long GetBroadcastDez()
+        private uint GetBroadcastDez()
         {
             // Logical OR operator |
             // The | operator computes the bitwise logical OR of its integral operands:
@@ -119,15 +125,22 @@ namespace WinFormsNetworkCalculator
 
         public string[] GetHostMinStrings()
         {
-            return CalcAddressStrings("Host min:", NetId + 1);
+            uint hostMin = NetId + 1;
+            if (Cidr > 30)
+                hostMin = 0;
+            
+            return CalcAddressStrings("Host min:", hostMin);
         }
 
         public string[] GetHostMaxStrings()
         {
-            return CalcAddressStrings("Host max:", Broadcast - 1);
+            uint hostMax = Broadcast - 1;
+            if (Cidr > 30)
+                hostMax = 0;
+            return CalcAddressStrings("Host max:", hostMax);
         }
 
-        private string[] CalcAddressStrings(string description, long ipAddress)
+        private string[] CalcAddressStrings(string description, uint ipAddress)
         {
             string[] ipStrings = [ description,
                                    GetDezOctet(ipAddress),
@@ -142,9 +155,9 @@ namespace WinFormsNetworkCalculator
         /// <returns></returns>
         public string[] GetHostsStrings()
         {
-            long lhosts = 0;
+            uint lhosts = 0;
             if (Cidr < 32)
-                lhosts = Convert.ToInt64(Math.Pow(2, 32 - Cidr) - 2);
+                lhosts = Convert.ToUInt32(Math.Pow(2, 32 - Cidr) - 2);
             return new string[] { "Hosts:", lhosts.ToString(), "" };
         }
 
@@ -153,11 +166,11 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="ip4"></param>
         /// <returns></returns>
-        private string GetDezOctet(long ip4)
+        private string GetDezOctet(uint ip4)
         {
             string strDezOctet = "";
-            long lMod = 0;
-            long lDiv = ip4;
+            uint lMod = 0;
+            uint lDiv = ip4;
             for (int i = 0; i < 4; i++)
             {
                 lMod = lDiv % 256;
@@ -174,7 +187,7 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="ip4"></param>
         /// <returns></returns>
-        private string GetBinOctet(long ip4)
+        private string GetBinOctet(uint ip4)
         {
             // :B32 -> String Format, Binärdarstellung mit 32 Stellen
             string strBin = $"{ip4:B32}";
@@ -187,6 +200,9 @@ namespace WinFormsNetworkCalculator
             }
             return binOctet;
         }
+
+        // static methods
+        //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 
         /// <summary>
         /// Prüft ob die Zeichenkette eine gültige IP4-Adresse
