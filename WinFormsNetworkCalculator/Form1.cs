@@ -2,8 +2,10 @@ namespace WinFormsNetworkCalculator
 {
     public partial class Form1 : Form
     {
-        private List<IPv4Address> _addresses = new();
-        private IPv4Address _cidrSubnet = new IPv4Address();
+        //private List<IPv4Address> _addresses = new();
+        //private IPv4Address _cidrSubnet = new IPv4Address();
+        private List<IPv4Subnet> _ipAddresses = new();
+        private IPv4Subnet _cidrPreview = new();
 
         public Form1()
         {
