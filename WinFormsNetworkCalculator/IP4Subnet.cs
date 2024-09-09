@@ -6,35 +6,35 @@ using System.Threading.Tasks;
 
 namespace WinFormsNetworkCalculator
 {
-    internal class IPv4Subnet : NetAddress32
+    internal class IP4Subnet : IP4Address
     {
-        public int Cidr {  get; set; }
-        public NetAddress32 IPv4 {  get; set; }
-        public NetAddress32 Netmask { get; set; }
-        public NetAddress32 Wildcard { get; set; }
-        public NetAddress32 NetId { get; set; }
-        public NetAddress32 Broadcast { get; set; }
-        public NetAddress32 HostMin { get; set; }
-        public NetAddress32 HostMax { get; set; }
-        public uint Hosts { get; set; }
-        
-
-        public IPv4Subnet(string ipDezOctet, int cidr)
+        public IP4Subnet(string ipDezOctet, int cidr) : base(ipDezOctet)
         {
-            IPv4 = new NetAddress32(ipDezOctet);
+            //IPv4 = new IP4Address(ipDezOctet);
             Cidr = cidr;
-            Netmask = new NetAddress32(GetNetmaskDez(cidr));
-            Wildcard = new NetAddress32(GetWildcardDez());
-            NetId = new NetAddress32(GetNetIdDez());
-            Broadcast = new NetAddress32(GetBroadcastDez());
-            HostMin = new NetAddress32(GetHostMin());
-            HostMax = new NetAddress32(GetHostMax());
+            Netmask = new IP4Address(GetNetmaskDez(cidr));
+            Wildcard = new IP4Address(GetWildcardDez());
+            NetId = new IP4Address(GetNetIdDez());
+            Broadcast = new IP4Address(GetBroadcastDez());
+            HostMin = new IP4Address(GetHostMin());
+            HostMax = new IP4Address(GetHostMax());
             Hosts = GetHosts();
         }
-        // constructor without parameters
-        public IPv4Subnet() : this("0.0.0.0", 0) 
+        // constructor with 1 parameter
+        public IP4Subnet(int cidr) : this("0.0.0.0", cidr) 
         { 
         }
+
+        public int Cidr { get; }
+        //public IP4Address IPv4 { get; }
+        public IP4Address Netmask { get; }
+        public IP4Address Wildcard { get; }
+        public IP4Address NetId { get; }
+        public IP4Address Broadcast { get; }
+        public IP4Address HostMin { get; }
+        public IP4Address HostMax { get; }
+        public uint Hosts { get; }
+
 
         /// <summary>
         /// Bestimme die Netzmaske aus dem CIDR-Suffix
@@ -58,7 +58,6 @@ namespace WinFormsNetworkCalculator
         {
             // Bitwise complement operator ~
             // The ~ operator produces a bitwise complement of its operand by reversing each bit
-            //uint wildcard = Convert.ToUInt32(Netmask);      
             // unsigned integer (uint) to avoid negative value from ~ operator
             return ~Netmask.Address;
         }
@@ -67,14 +66,14 @@ namespace WinFormsNetworkCalculator
         {
             // Logical AND operator &
             // The & operator computes the bitwise logical AND of its integral operands:
-            return IPv4.Address & Netmask.Address;
+            return this.Address & Netmask.Address;
         }
 
         private uint GetBroadcastDez()
         {
             // Logical OR operator |
             // The | operator computes the bitwise logical OR of its integral operands:
-            return IPv4.Address | Wildcard.Address;
+            return this.Address | Wildcard.Address;
         }
 
         private uint GetHostMin()
@@ -106,6 +105,12 @@ namespace WinFormsNetworkCalculator
             if (Cidr < 32)
                 hosts = Convert.ToUInt32(Math.Pow(2, 32 - Cidr) - 2);
             return hosts;
+        }
+
+        // helper method for CIDR preview in UI
+        public IP4Address GetNetmaskAddress(int cidr)
+        {
+            return new IP4Address(GetNetmaskDez(cidr));
         }
     }
 }

@@ -104,6 +104,7 @@ namespace WinFormsNetworkCalculator
             // :B32 -> String Format, Binärdarstellung mit 32 Stellen
             string strBin = $"{ip4:B32}";
             string binOctet = "";
+            // add dot sparator
             for (int i = 0; i < 4; i++)
             {
                 binOctet += strBin.Substring(i * 8, 8);

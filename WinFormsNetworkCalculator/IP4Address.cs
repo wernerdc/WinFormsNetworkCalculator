@@ -6,28 +6,29 @@ using System.Threading.Tasks;
 
 namespace WinFormsNetworkCalculator
 {
-    internal class NetAddress32
+    internal class IP4Address
     {
-        public uint Address {  get;  set; }
-        public string DezOctet { get; set; }
-        public string BinOctet { get; set; }
-
         // constructor for 32 bit decimal address
-        public NetAddress32(uint address)
+        public IP4Address(uint address)
         { 
             Address = address;
             DezOctet = GetDezOctet(address);
             BinOctet = GetBinOctet(address);
         }
         // constructor for decimal-octet notation
-        public NetAddress32(string dezOctet)
+        public IP4Address(string dezOctet)
         {
             Address = GetDezFromOctet(dezOctet);
-            DezOctet = dezOctet;
+            DezOctet = GetDezOctet(Address);
             BinOctet = GetBinOctet(Address);
         }
         // constructor without parameters, initialized with "0"
-        public NetAddress32() : this(0) { }
+        public IP4Address() : this(0) { }
+
+        public uint Address { get; }
+        public string DezOctet { get; }
+        public string BinOctet { get; }
+
 
         /// <summary>
         /// Berechnet aus der IP4-Oktett-Darstellung die interne 32Bit-Zahl in
