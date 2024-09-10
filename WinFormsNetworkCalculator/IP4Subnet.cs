@@ -16,42 +16,24 @@ namespace WinFormsNetworkCalculator
             Broadcast = new IP4Address(GetBroadcastDez());
             HostMin = new IP4Address(GetHostMin(cidr));
             HostMax = new IP4Address(GetHostMax(cidr));
-            //Hosts = GetHosts(cidr);
-        }
-        // constructor with 1 parameter
-        public IP4Subnet(int cidr) : this("0.0.0.0", cidr) 
-        { 
         }
 
-        //public int Cidr { get; }
+        // auto properties, getters only
         public IP4Netmask Netmask { get; }
-        //public IP4Address Netmask { get; }
         public IP4Address Wildcard { get; }
         public IP4Address NetId { get; }
         public IP4Address Broadcast { get; }
         public IP4Address HostMin { get; }
         public IP4Address HostMax { get; }
-        //public uint Hosts { get; }
-
-/*
-        /// <summary>
-        /// Bestimme die Netzmaske aus dem CIDR-Suffix
-        /// </summary>
-        /// <param name="cidr"></param>
-        /// <returns></returns>
-        private uint GetNetmaskDez(int cidr)
+        public int Cidr 
         {
-            uint lDez = 0;
-            for (int i = 0; i < 32; i++)
-            {
-                if (i < cidr)
-                    lDez = lDez * 2 + 1;
-                else
-                    lDez = lDez * 2;
-            }
-            return lDez;
+            get { return Netmask.Cidr; } 
         }
-*/
+        public uint Hosts 
+        { 
+            get { return Netmask.Hosts; }
+        }
+
         private uint GetWildcardDez()
         {
             // Bitwise complement operator ~
@@ -91,18 +73,5 @@ namespace WinFormsNetworkCalculator
 
             return hostMax;
         }
-
-        /*/// <summary>
-        /// Bestimme die Anzahl der Hosts aus dem CIDR-Suffix
-        /// </summary>
-        /// <param name="cidr"></param>
-        /// <returns></returns>
-        private uint GetHosts(int cidr)
-        {
-            uint hosts = 0;
-            if (cidr < 32)
-                hosts = Convert.ToUInt32(Math.Pow(2, 32 - cidr) - 2);
-            return hosts;
-        }*/
     }
 }

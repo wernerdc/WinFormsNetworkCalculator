@@ -9,29 +9,27 @@ namespace WinFormsNetworkCalculator
     internal class IP4Address
     {
         // constructor for 32 bit decimal address
-        public IP4Address(uint address, string description = "")
+        public IP4Address(uint address)
         { 
             Address = address;
             DezOctet = GetDezOctet(address);
             BinOctet = GetBinOctet(address);
-            Description = description;
         }
         
         // constructor for decimal-octet notation
-        public IP4Address(string dezOctet, string description = "")
+        public IP4Address(string dezOctet)
         {
             Address = GetDezFromOctet(dezOctet);
             DezOctet = GetDezOctet(Address);
             BinOctet = GetBinOctet(Address);
-            Description = description;
         }
         // constructor without parameters, initialized with "0"
         public IP4Address() : this(0) { }
 
+        // auto properties, protected setters for child classes
         public uint Address { get; protected set; }
         public string DezOctet { get; protected set; }
         public string BinOctet { get; protected set; }
-        public string Description { get; protected set; }
 
 
         /// <summary>

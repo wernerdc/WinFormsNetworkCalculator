@@ -43,19 +43,19 @@ namespace WinFormsNetworkCalculator
             // fill richTextBox
             richTextBoxResults.Clear();
             WriteRichText("", "", "Network prefix              Host ID", 24);
-            WriteRichText("Address:",    subnet, nCidr);            // -> IP4Subnet  derives from IP4Address, so it can be used here as IP4Address type
+            WriteRichText("IP Address:", subnet, nCidr);            // -> IP4Subnet  derives from IP4Address, so it can be used here as IP4Address type
             WriteRichText("Netmask:",    subnet.Netmask, nCidr);    // -> IP4Netmask derives from IP4Address, so it can be used here as IP4Address type
             WriteRichText("Wildcard:",   subnet.Wildcard, nCidr);
             WriteRichText("NetAddress:", subnet.NetId, nCidr);
             WriteRichText("Host min:",   subnet.HostMin, nCidr);
             WriteRichText("Host max:",   subnet.HostMax, nCidr);
             WriteRichText("Broadcast:",  subnet.Broadcast, nCidr);
-            WriteRichText("Hosts:",      subnet.Netmask.Hosts.ToString("N0"));
+            WriteRichText("Hosts:",      subnet.Hosts.ToString("N0"));
         }
 
         private void WriteRichText(string description, string dezOctet = "", string binOctet = "", int cidr = -1)
         {
-            // binary string's host prefix length. calculate additional dot separators
+            // host ID length in the binary-octet string. calculate additional chars used by the dot separators.
             int hostBits = 32 - cidr;
             int hostBitsLength = hostBits + ((hostBits - 1) / 8);
 
@@ -79,7 +79,7 @@ namespace WinFormsNetworkCalculator
 
             if (cidr != -1)
             {
-                // select host bits + colorize them red
+                // select host bits + set red color
                 richTextBoxResults.Select(richTextBoxResults.TextLength - hostBitsLength, hostBitsLength);
                 richTextBoxResults.SelectionColor = Color.DarkRed;
                 richTextBoxResults.Select(richTextBoxResults.TextLength, 0);    // reset selection/position

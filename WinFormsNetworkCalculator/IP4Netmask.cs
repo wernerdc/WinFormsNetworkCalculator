@@ -8,17 +8,18 @@ namespace WinFormsNetworkCalculator
 {
     internal class IP4Netmask : IP4Address
     {
-        public int Cidr { get; }
-        public uint Hosts { get; }
-
-        public IP4Netmask(int cidr)
+        public IP4Netmask(int cidr) : base(0)
         {
-            Cidr = cidr;
             this.Address = GetNetmaskDez(cidr);
             this.DezOctet = GetDezOctet(this.Address);
             this.BinOctet = GetBinOctet(this.Address);
+            Cidr = cidr;
             Hosts = GetHosts(cidr);
         }
+        
+        // auto properties, getters only
+        public int Cidr { get; }
+        public uint Hosts { get; }
 
         /// <summary>
         /// Bestimme die Netzmaske aus dem CIDR-Suffix
