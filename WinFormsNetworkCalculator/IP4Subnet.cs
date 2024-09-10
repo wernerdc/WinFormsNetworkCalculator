@@ -10,32 +10,30 @@ namespace WinFormsNetworkCalculator
     {
         public IP4Subnet(string ipDezOctet, int cidr) : base(ipDezOctet)
         {
-            //IPv4 = new IP4Address(ipDezOctet);
-            Cidr = cidr;
-            Netmask = new IP4Address(GetNetmaskDez(cidr));
+            Netmask = new IP4Netmask(cidr);
             Wildcard = new IP4Address(GetWildcardDez());
             NetId = new IP4Address(GetNetIdDez());
             Broadcast = new IP4Address(GetBroadcastDez());
-            HostMin = new IP4Address(GetHostMin());
-            HostMax = new IP4Address(GetHostMax());
-            Hosts = GetHosts();
+            HostMin = new IP4Address(GetHostMin(cidr));
+            HostMax = new IP4Address(GetHostMax(cidr));
+            //Hosts = GetHosts(cidr);
         }
         // constructor with 1 parameter
         public IP4Subnet(int cidr) : this("0.0.0.0", cidr) 
         { 
         }
 
-        public int Cidr { get; }
-        //public IP4Address IPv4 { get; }
-        public IP4Address Netmask { get; }
+        //public int Cidr { get; }
+        public IP4Netmask Netmask { get; }
+        //public IP4Address Netmask { get; }
         public IP4Address Wildcard { get; }
         public IP4Address NetId { get; }
         public IP4Address Broadcast { get; }
         public IP4Address HostMin { get; }
         public IP4Address HostMax { get; }
-        public uint Hosts { get; }
+        //public uint Hosts { get; }
 
-
+/*
         /// <summary>
         /// Bestimme die Netzmaske aus dem CIDR-Suffix
         /// </summary>
@@ -53,7 +51,7 @@ namespace WinFormsNetworkCalculator
             }
             return lDez;
         }
-
+*/
         private uint GetWildcardDez()
         {
             // Bitwise complement operator ~
@@ -76,41 +74,35 @@ namespace WinFormsNetworkCalculator
             return this.Address | Wildcard.Address;
         }
 
-        private uint GetHostMin()
+        private uint GetHostMin(int cidr)
         {
             uint hostMin = NetId.Address + 1;
-            if (Cidr > 30)
+            if (cidr > 30)
                 hostMin = 0;
 
             return hostMin;
         }
         
-        private uint GetHostMax()
+        private uint GetHostMax(int cidr)
         {
             uint hostMax = Broadcast.Address - 1;
-            if (Cidr > 30)
+            if (cidr > 30)
                 hostMax = 0;
 
             return hostMax;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Bestimme die Anzahl der Hosts aus dem CIDR-Suffix
         /// </summary>
         /// <param name="cidr"></param>
         /// <returns></returns>
-        private uint GetHosts()
+        private uint GetHosts(int cidr)
         {
             uint hosts = 0;
-            if (Cidr < 32)
-                hosts = Convert.ToUInt32(Math.Pow(2, 32 - Cidr) - 2);
+            if (cidr < 32)
+                hosts = Convert.ToUInt32(Math.Pow(2, 32 - cidr) - 2);
             return hosts;
-        }
-
-        // helper method for CIDR preview in UI
-        public IP4Address GetNetmaskAddress(int cidr)
-        {
-            return new IP4Address(GetNetmaskDez(cidr));
-        }
+        }*/
     }
 }

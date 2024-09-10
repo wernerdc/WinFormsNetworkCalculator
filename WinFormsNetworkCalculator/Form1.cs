@@ -9,67 +9,55 @@ namespace WinFormsNetworkCalculator
         {
             InitializeComponent();
 
+            // set netmask preview from numericalUpDown
+            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
+            textBoxSubnetmaskDez.Text = cidr.DezOctet;
+            textBoxSubnetmaskBin.Text = cidr.BinOctet;
+        }
 
-            // set netmask preview from numericalUpDown input
-            IP4Subnet cidr = new IP4Subnet(decimal.ToInt32(numericUpDownCidr.Value));
-            textBoxSubnetmaskDez.Text = cidr.Netmask.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.Netmask.BinOctet;
-/*
-            // comboBox initialisieren:
-            // dropDownStyle dropDownList = predefined values only
-            comboBoxCidr.SelectedIndex = 8;         // =nCidr 24 for default
-            //set netmask preview
-            IP4Subnet cidr = new IP4Subnet(int.Parse(comboBoxCidr.Text));
-*/
+        private void numericUpDownCidr_ValueChanged(object sender, EventArgs e)
+        {
+            // update netmask preview
+            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
+            textBoxSubnetmaskDez.Text = cidr.DezOctet;
+            textBoxSubnetmaskBin.Text = cidr.BinOctet;
         }
 
         private void buttonCalculateNetwork_Click(object sender, EventArgs e)
         {
-            //listBoxResults.Items.Clear();
-            string address = textBoxAddress.Text;
-            //int nCidr = int.Parse(comboBoxCidr.Text);
+            string ipAddress = textBoxAddress.Text;
             int nCidr = decimal.ToInt32(numericUpDownCidr.Value);
 
             // check if address input is a valid IPv4 address
-            if (!IP4Address.CheckDezOctet(address))
+            if (!IP4Address.CheckDezOctet(ipAddress))
             {
-                WriteString("Ungültige IPv4 Adresse!");
+                WriteRichText("Ungültige IPv4 Adresse!");
                 return;
             }
 
             // new IP4Subnet instance
-            IP4Subnet subnet = new IP4Subnet(address, nCidr);
+            IP4Subnet subnet = new IP4Subnet(ipAddress, nCidr);
             // add to list 
             _addresses.Add(subnet);
-/*
-            // fill listBox
-            WriteString("Address:", subnet);            // -> IP4Subnet inherited from IP4Address, so it can be used here as IP4Address type
-            WriteString("Netmask:", subnet.Netmask);
-            WriteString("Wildcard:", subnet.Wildcard);
-            WriteString("NetAddress:", subnet.NetId);
-            WriteString("Host min:", subnet.HostMin);
-            WriteString("Host max:", subnet.HostMax);
-            WriteString("Broadcast:", subnet.Broadcast);
-            WriteString("Hosts:", subnet.Hosts.ToString());
-*/
+
             // fill richTextBox
             richTextBoxResults.Clear();
             WriteRichText("", "", "Network prefix              Host ID", 24);
-            WriteRichText("Address:", subnet, nCidr);            // -> IP4Subnet inherited from IP4Address, so it can be used here as IP4Address type
-            WriteRichText("Netmask:", subnet.Netmask, nCidr);
-            WriteRichText("Wildcard:", subnet.Wildcard, nCidr);
+            WriteRichText("Address:",    subnet, nCidr);            // -> IP4Subnet  derives from IP4Address, so it can be used here as IP4Address type
+            WriteRichText("Netmask:",    subnet.Netmask, nCidr);    // -> IP4Netmask derives from IP4Address, so it can be used here as IP4Address type
+            WriteRichText("Wildcard:",   subnet.Wildcard, nCidr);
             WriteRichText("NetAddress:", subnet.NetId, nCidr);
-            WriteRichText("Host min:", subnet.HostMin, nCidr);
-            WriteRichText("Host max:", subnet.HostMax, nCidr);
-            WriteRichText("Broadcast:", subnet.Broadcast, nCidr);
-            WriteRichText("Hosts:", subnet.Hosts.ToString("N0"));
+            WriteRichText("Host min:",   subnet.HostMin, nCidr);
+            WriteRichText("Host max:",   subnet.HostMax, nCidr);
+            WriteRichText("Broadcast:",  subnet.Broadcast, nCidr);
+            WriteRichText("Hosts:",      subnet.Netmask.Hosts.ToString("N0"));
         }
 
         private void WriteRichText(string description, string dezOctet = "", string binOctet = "", int cidr = -1)
         {
+            // binary string's host prefix length. calculate additional dot separators
             int hostBits = 32 - cidr;
             int hostBitsLength = hostBits + ((hostBits - 1) / 8);
-
 
             // description in black
             richTextBoxResults.SelectionColor = Color.Black;
@@ -102,33 +90,6 @@ namespace WinFormsNetworkCalculator
             WriteRichText(description, address.DezOctet, address.BinOctet, cidr);
         }
 
-
-        // write new line into listBox
-        private void WriteString(string description, string dezOctet = "", string binOctet = "")
-        {
-            string row = $"  {description,11}   {dezOctet,-15}   {binOctet}";
-            //listBoxResults.Items.Add(row);
-        }
-        // overload with 2 parameters
-        private void WriteString(string description, IP4Address address)
-        {
-            WriteString(description, address.DezOctet, address.BinOctet);
-        }
-        private void numericUpDownCidr_ValueChanged(object sender, EventArgs e)
-        {
-            // update netmask preview
-            IP4Subnet cidr = new IP4Subnet(decimal.ToInt32(numericUpDownCidr.Value));
-            textBoxSubnetmaskDez.Text = cidr.Netmask.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.Netmask.BinOctet;
-        }
-/*
-        private void comboBoxCidr_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // update netmask preview
-            IP4Subnet cidr = new IP4Subnet(int.Parse(comboBoxCidr.Text));
-            textBoxSubnetmaskDez.Text = cidr.Netmask.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.Netmask.BinOctet;
-        }
-*/
+        
     }
 }

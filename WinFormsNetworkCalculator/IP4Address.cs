@@ -9,30 +9,34 @@ namespace WinFormsNetworkCalculator
     internal class IP4Address
     {
         // constructor for 32 bit decimal address
-        public IP4Address(uint address)
+        public IP4Address(uint address, string description = "")
         { 
             Address = address;
             DezOctet = GetDezOctet(address);
             BinOctet = GetBinOctet(address);
+            Description = description;
         }
+        
         // constructor for decimal-octet notation
-        public IP4Address(string dezOctet)
+        public IP4Address(string dezOctet, string description = "")
         {
             Address = GetDezFromOctet(dezOctet);
             DezOctet = GetDezOctet(Address);
             BinOctet = GetBinOctet(Address);
+            Description = description;
         }
         // constructor without parameters, initialized with "0"
         public IP4Address() : this(0) { }
 
-        public uint Address { get; }
-        public string DezOctet { get; }
-        public string BinOctet { get; }
+        public uint Address { get; protected set; }
+        public string DezOctet { get; protected set; }
+        public string BinOctet { get; protected set; }
+        public string Description { get; protected set; }
 
 
         /// <summary>
-        /// Berechnet aus der IP4-Oktett-Darstellung die interne 32Bit-Zahl in
-        /// Dezimaldarstellung. Diese dient als Grundlage für weitere Berechnungen.
+        /// Berechnet aus der IP4 Dezimal-Oktett-Darstellung die interne 
+        /// 32Bit-Dezimalzahl. Diese dient als Grundlage für weitere Berechnungen.
         /// </summary>
         /// <param name="strDezOctet"></param>
         /// <returns></returns>
@@ -54,7 +58,7 @@ namespace WinFormsNetworkCalculator
         }
 
         /// <summary>
-        /// Bestimme aus der 32Bit-Zahl die IP4 Oktett-Darstellung
+        /// Bestimme aus der 32Bit-Zahl die IP4 dezimale Oktett-Darstellung
         /// </summary>
         /// <param name="ip4"></param>
         /// <returns></returns>
@@ -98,7 +102,7 @@ namespace WinFormsNetworkCalculator
 
         /// <summary>
         /// Prüft ob die Zeichenkette eine gültige IP4-Adresse
-        /// in Oktett-Darstellung ist.
+        /// in dezimaler Oktett-Darstellung ist.
         /// </summary>
         /// <param name="strDezOctet"></param>
         /// <returns></returns>
