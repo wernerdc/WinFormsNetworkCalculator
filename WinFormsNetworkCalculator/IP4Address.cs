@@ -119,6 +119,8 @@ namespace WinFormsNetworkCalculator
                 byte bTest;
                 if (!Byte.TryParse(strDez, out bTest))
                     return false;
+                //if (i == 0 && bTest < 1)      // non routable/invalid addresses
+                //    return false;
             }
             return true;
         }

@@ -8,7 +8,7 @@ namespace WinFormsNetworkCalculator
 {
     internal class IP4Netmask : IP4Address
     {
-        public IP4Netmask(int cidr) : base(0)
+        public IP4Netmask(int cidr)
         {
             this.Address = GetNetmaskDez(cidr);
             this.DezOctet = GetDezOctet(this.Address);

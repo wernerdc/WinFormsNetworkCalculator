@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            richTextBoxResults = new RichTextBox();
             numericUpDownCidr = new NumericUpDown();
             textBoxSubnetmaskBin = new TextBox();
             label3 = new Label();
@@ -38,6 +37,7 @@
             label1 = new Label();
             buttonCalculateNetwork = new Button();
             textBoxAddress = new TextBox();
+            tbResults = new ColorTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCidr).BeginInit();
             SuspendLayout();
@@ -45,7 +45,7 @@
             // panel1
             // 
             panel1.AutoSize = true;
-            panel1.Controls.Add(richTextBoxResults);
+            panel1.Controls.Add(tbResults);
             panel1.Controls.Add(numericUpDownCidr);
             panel1.Controls.Add(textBoxSubnetmaskBin);
             panel1.Controls.Add(label3);
@@ -59,19 +59,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(515, 300);
             panel1.TabIndex = 0;
-            // 
-            // richTextBoxResults
-            // 
-            richTextBoxResults.BackColor = SystemColors.Window;
-            richTextBoxResults.Dock = DockStyle.Bottom;
-            richTextBoxResults.Font = new Font("Consolas", 9F);
-            richTextBoxResults.Location = new Point(0, 141);
-            richTextBoxResults.Margin = new Padding(30);
-            richTextBoxResults.Name = "richTextBoxResults";
-            richTextBoxResults.ReadOnly = true;
-            richTextBoxResults.Size = new Size(515, 159);
-            richTextBoxResults.TabIndex = 10;
-            richTextBoxResults.Text = "";
             // 
             // numericUpDownCidr
             // 
@@ -150,6 +137,18 @@
             textBoxAddress.TabIndex = 1;
             textBoxAddress.Text = "192.168.87.85";
             // 
+            // tbResults
+            // 
+            tbResults.BackColor = SystemColors.Window;
+            tbResults.Dock = DockStyle.Bottom;
+            tbResults.Font = new Font("Consolas", 9F);
+            tbResults.Location = new Point(0, 141);
+            tbResults.Name = "tbResults";
+            tbResults.ReadOnly = true;
+            tbResults.Size = new Size(515, 159);
+            tbResults.TabIndex = 10;
+            tbResults.Text = "";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -176,6 +175,6 @@
         private Label label3;
         private TextBox textBoxSubnetmaskBin;
         private NumericUpDown numericUpDownCidr;
-        private RichTextBox richTextBoxResults;
+        private ColorTextBox tbResults;
     }
 }
