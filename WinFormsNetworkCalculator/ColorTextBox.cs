@@ -33,8 +33,6 @@ namespace WinFormsNetworkCalculator
 
         public void WriteLine(string description, string dezOctet = "", string binOctet = "", int hostLength = 0)
         {
-            
-
             // description / 1. column
             SelectionColor = Color.Black;
             // colorize netmask + wildcard
