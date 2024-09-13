@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace WinFormsNetworkCalculator
 {
-    public class IP4Helper
+    // not used in this project, but kept as reference for mathematical
+    // calculations of binary and decimal systems
+    public class Unused_IP4Helper
     {
         /// <summary>
         /// Prüft ob die Zeichenkette eine gültige IP4-Adresse
