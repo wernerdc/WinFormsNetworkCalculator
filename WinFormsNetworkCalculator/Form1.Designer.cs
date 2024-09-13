@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            tbResults = new ColorTextBox();
             numericUpDownCidr = new NumericUpDown();
             textBoxSubnetmaskBin = new TextBox();
             label3 = new Label();
@@ -37,7 +38,6 @@
             label1 = new Label();
             buttonCalculateNetwork = new Button();
             textBoxAddress = new TextBox();
-            tbResults = new ColorTextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDownCidr).BeginInit();
             SuspendLayout();
@@ -59,6 +59,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(515, 300);
             panel1.TabIndex = 0;
+            // 
+            // tbResults
+            // 
+            tbResults.BackColor = SystemColors.Window;
+            tbResults.Dock = DockStyle.Bottom;
+            tbResults.Font = new Font("Consolas", 9F);
+            tbResults.Location = new Point(0, 141);
+            tbResults.Name = "tbResults";
+            tbResults.ReadOnly = true;
+            tbResults.Size = new Size(515, 159);
+            tbResults.TabIndex = 10;
+            tbResults.Text = "";
             // 
             // numericUpDownCidr
             // 
@@ -136,18 +148,7 @@
             textBoxAddress.Size = new Size(118, 22);
             textBoxAddress.TabIndex = 1;
             textBoxAddress.Text = "192.168.87.85";
-            // 
-            // tbResults
-            // 
-            tbResults.BackColor = SystemColors.Window;
-            tbResults.Dock = DockStyle.Bottom;
-            tbResults.Font = new Font("Consolas", 9F);
-            tbResults.Location = new Point(0, 141);
-            tbResults.Name = "tbResults";
-            tbResults.ReadOnly = true;
-            tbResults.Size = new Size(515, 159);
-            tbResults.TabIndex = 10;
-            tbResults.Text = "";
+            textBoxAddress.TextChanged += textBoxAddress_TextChanged;
             // 
             // Form1
             // 
@@ -155,6 +156,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(515, 300);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "Form1";
             Text = "WinFormsNetworkCalculator";
             panel1.ResumeLayout(false);
