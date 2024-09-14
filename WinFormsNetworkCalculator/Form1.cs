@@ -12,71 +12,78 @@ namespace WinFormsNetworkCalculator
         public Form1()
         {
             InitializeComponent();
+            textBoxAddress.Text = "192.168.87.85";
+            numericUpDownCidr.Value = 24;
 
             // set netmask preview from numericalUpDown
-            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
-            textBoxSubnetmaskDez.Text = cidr.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.BinOctet;
+            UpdateNetmaskPreview();
 
             // set tbResults preview from textBoxAddress
-            string ipAddress = textBoxAddress.Text;
-            _currentSubnet = new IP4Subnet(ipAddress, cidr.Cidr);
-            tbResults.ShowSubnet(_currentSubnet);
-        }
-
-        private void numericUpDownCidr_ValueChanged(object sender, EventArgs e)
-        {
-            // update netmask preview
-            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
-            textBoxSubnetmaskDez.Text = cidr.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.BinOctet;
-
-            // update tbResults
-            string ipAddress = textBoxAddress.Text;
-            // check if IPv4 address is invalid -> exit method
-            if (!IP4Address.CheckDezOctet(ipAddress))
-                return;
-
-            _currentSubnet = new IP4Subnet(ipAddress, cidr.Cidr);
-            tbResults.Clear();
-            tbResults.ShowSubnet(_currentSubnet);
+            UpdateResults();
         }
 
         private void buttonCalculateNetwork_Click(object sender, EventArgs e)
         {
             string ipAddress = textBoxAddress.Text;
-            int nCidr = decimal.ToInt32(numericUpDownCidr.Value);
-            tbResults.Clear();
+            int cidr = decimal.ToInt32(numericUpDownCidr.Value);
 
             // check if IPv4 address is invalid -> exit method
-            if (!IP4Address.CheckDezOctet(ipAddress))
+            if (!UpdateResults())
             {
-                tbResults.WriteLine("Ungültige IPv4 Adresse!");
+                tbResults.Clear();
+                tbResults.WriteLine("Invalid IPv4 address!");
                 return;
             }
 
-            // new IP4Subnet instance
-            IP4Subnet subnet = new IP4Subnet(ipAddress, nCidr);
-            // add to list 
-            _addresses.Add(subnet);
-            _currentSubnet = subnet;
+            // add subnet to list
+            _addresses.Add(_currentSubnet);
+        }
 
-            // display results in text box
-            tbResults.ShowSubnet(subnet);
+        private void numericUpDownCidr_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateNetmaskPreview();
+            UpdateResults();
         }
 
         private void textBoxAddress_TextChanged(object sender, EventArgs e)
         {
-            // update tbResults
+            UpdateResults();
+        }
+
+        private void UpdateNetmaskPreview()
+        {
+            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
+            textBoxSubnetmaskDez.Text = cidr.DezOctet;
+            textBoxSubnetmaskBin.Text = cidr.BinOctet;
+        }
+
+        private bool UpdateResults()
+        {
             string ipAddress = textBoxAddress.Text;
             // check if IPv4 address is invalid -> exit method
             if (!IP4Address.CheckDezOctet(ipAddress))
-                return;
+            {
+                //textBoxAddress.BackColor = Color.FromArgb(249, 206, 218);
+                textBoxAddress.BackColor = ColorTranslator.FromHtml("#FFE1E8");
+                return false;
+            }
 
             int cidr = decimal.ToInt32(numericUpDownCidr.Value);
             _currentSubnet = new IP4Subnet(ipAddress, cidr);
-            tbResults.Clear();
             tbResults.ShowSubnet(_currentSubnet);
+
+            textBoxAddress.BackColor = SystemColors.Window;
+            return true;
+        }
+
+        private void buttonCopyClipboard_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(tbResults.Text);
+        }
+
+        private void buttonCopySelected_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(tbResults.SelectedText);
         }
     }
 }
