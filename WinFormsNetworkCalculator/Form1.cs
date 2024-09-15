@@ -78,12 +78,22 @@ namespace WinFormsNetworkCalculator
 
         private void buttonCopyClipboard_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(tbResults.Text);
+            // Add the textBox data in various formats.
+            DataObject dtoResults = new DataObject();
+            dtoResults.SetData(DataFormats.Rtf, true, tbResults.Rtf);
+            dtoResults.SetData(DataFormats.Text, true, tbResults.Text);
+            // Place the data in the Clipboard.
+            Clipboard.SetDataObject(dtoResults);
         }
 
         private void buttonCopySelected_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(tbResults.SelectedText);
+            // Add the textBox data in various formats.
+            DataObject dtoResults = new DataObject();
+            dtoResults.SetData(DataFormats.Rtf, true, tbResults.SelectedRtf);
+            dtoResults.SetData(DataFormats.Text, true, tbResults.SelectedText);
+            // Place the data in the Clipboard.
+            Clipboard.SetDataObject(dtoResults);
         }
     }
 }

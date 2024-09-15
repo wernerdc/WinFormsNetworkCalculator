@@ -46,7 +46,7 @@ namespace WinFormsNetworkCalculator
                 int column2Color = 0)
         {
 
-            Color[] colors = { Color.Black, Color.DarkBlue, Color.DarkRed };
+            Color[] colors = [ Color.Black, Color.DarkBlue, Color.DarkRed ];
             
             // description / 1. column
             SelectionColor = colors[column1Color];
