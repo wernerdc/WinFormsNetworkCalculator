@@ -28,17 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             panel1 = new Panel();
+            labelVersion = new Label();
             buttonSaveFile = new Button();
             buttonCopySelected = new Button();
             buttonCopyClipboard = new Button();
             tbResults = new ColorTextBox();
             numericUpDownCidr = new NumericUpDown();
             textBoxSubnetmaskBin = new TextBox();
-            label3 = new Label();
+            labelSubnet = new Label();
             textBoxSubnetmaskDez = new TextBox();
-            label2 = new Label();
-            label1 = new Label();
+            labelCidr = new Label();
+            labelAddress = new Label();
             buttonCalculateNetwork = new Button();
             textBoxAddress = new TextBox();
             panel1.SuspendLayout();
@@ -48,16 +50,18 @@
             // panel1
             // 
             panel1.AutoSize = true;
+            panel1.BackColor = SystemColors.ControlLight;
+            panel1.Controls.Add(labelVersion);
             panel1.Controls.Add(buttonSaveFile);
             panel1.Controls.Add(buttonCopySelected);
             panel1.Controls.Add(buttonCopyClipboard);
             panel1.Controls.Add(tbResults);
             panel1.Controls.Add(numericUpDownCidr);
             panel1.Controls.Add(textBoxSubnetmaskBin);
-            panel1.Controls.Add(label3);
+            panel1.Controls.Add(labelSubnet);
             panel1.Controls.Add(textBoxSubnetmaskDez);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(labelCidr);
+            panel1.Controls.Add(labelAddress);
             panel1.Controls.Add(buttonCalculateNetwork);
             panel1.Controls.Add(textBoxAddress);
             panel1.Dock = DockStyle.Fill;
@@ -66,11 +70,23 @@
             panel1.Size = new Size(515, 277);
             panel1.TabIndex = 0;
             // 
+            // labelVersion
+            // 
+            labelVersion.AutoSize = true;
+            labelVersion.BackColor = SystemColors.Window;
+            labelVersion.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelVersion.ForeColor = SystemColors.ScrollBar;
+            labelVersion.Location = new Point(486, 260);
+            labelVersion.Name = "labelVersion";
+            labelVersion.Size = new Size(27, 13);
+            labelVersion.TabIndex = 17;
+            labelVersion.Text = "v0.2";
+            // 
             // buttonSaveFile
             // 
-            buttonSaveFile.Location = new Point(406, 85);
+            buttonSaveFile.Location = new Point(402, 85);
             buttonSaveFile.Name = "buttonSaveFile";
-            buttonSaveFile.Size = new Size(97, 23);
+            buttonSaveFile.Size = new Size(101, 23);
             buttonSaveFile.TabIndex = 6;
             buttonSaveFile.Text = "Save as...";
             buttonSaveFile.UseVisualStyleBackColor = true;
@@ -78,9 +94,9 @@
             // 
             // buttonCopySelected
             // 
-            buttonCopySelected.Location = new Point(406, 56);
+            buttonCopySelected.Location = new Point(402, 56);
             buttonCopySelected.Name = "buttonCopySelected";
-            buttonCopySelected.Size = new Size(97, 23);
+            buttonCopySelected.Size = new Size(101, 23);
             buttonCopySelected.TabIndex = 5;
             buttonCopySelected.Text = "Copy selected";
             buttonCopySelected.UseVisualStyleBackColor = true;
@@ -88,9 +104,9 @@
             // 
             // buttonCopyClipboard
             // 
-            buttonCopyClipboard.Location = new Point(406, 27);
+            buttonCopyClipboard.Location = new Point(402, 27);
             buttonCopyClipboard.Name = "buttonCopyClipboard";
-            buttonCopyClipboard.Size = new Size(97, 23);
+            buttonCopyClipboard.Size = new Size(101, 23);
             buttonCopyClipboard.TabIndex = 4;
             buttonCopyClipboard.Text = "Copy text";
             buttonCopyClipboard.UseVisualStyleBackColor = true;
@@ -99,6 +115,7 @@
             // tbResults
             // 
             tbResults.BackColor = SystemColors.Window;
+            tbResults.BorderStyle = BorderStyle.None;
             tbResults.Dock = DockStyle.Bottom;
             tbResults.Font = new Font("Consolas", 9F);
             tbResults.Location = new Point(0, 118);
@@ -129,14 +146,14 @@
             textBoxSubnetmaskBin.Size = new Size(260, 22);
             textBoxSubnetmaskBin.TabIndex = 9;
             // 
-            // label3
+            // labelSubnet
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(12, 67);
-            label3.Name = "label3";
-            label3.Size = new Size(72, 15);
-            label3.TabIndex = 8;
-            label3.Text = "Subnetmask";
+            labelSubnet.AutoSize = true;
+            labelSubnet.Location = new Point(12, 67);
+            labelSubnet.Name = "labelSubnet";
+            labelSubnet.Size = new Size(72, 15);
+            labelSubnet.TabIndex = 18;
+            labelSubnet.Text = "Subnetmask";
             // 
             // textBoxSubnetmaskDez
             // 
@@ -148,23 +165,23 @@
             textBoxSubnetmaskDez.Size = new Size(118, 22);
             textBoxSubnetmaskDez.TabIndex = 7;
             // 
-            // label2
+            // labelCidr
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(136, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(33, 15);
-            label2.TabIndex = 5;
-            label2.Text = "CIDR";
+            labelCidr.AutoSize = true;
+            labelCidr.Location = new Point(136, 9);
+            labelCidr.Name = "labelCidr";
+            labelCidr.Size = new Size(33, 15);
+            labelCidr.TabIndex = 16;
+            labelCidr.Text = "CIDR";
             // 
-            // label1
+            // labelAddress
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(49, 15);
-            label1.TabIndex = 4;
-            label1.Text = "Address";
+            labelAddress.AutoSize = true;
+            labelAddress.Location = new Point(12, 9);
+            labelAddress.Name = "labelAddress";
+            labelAddress.Size = new Size(49, 15);
+            labelAddress.TabIndex = 15;
+            labelAddress.Text = "Address";
             // 
             // buttonCalculateNetwork
             // 
@@ -194,6 +211,7 @@
             ClientSize = new Size(515, 277);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
             Text = "IPv4 Network Calculator";
@@ -207,17 +225,18 @@
         #endregion
 
         private Panel panel1;
-        private Label label2;
-        private Label label1;
+        private Label labelCidr;
+        private Label labelAddress;
         private Button buttonCalculateNetwork;
         private TextBox textBoxAddress;
         private TextBox textBoxSubnetmaskDez;
-        private Label label3;
+        private Label labelSubnet;
         private TextBox textBoxSubnetmaskBin;
         private NumericUpDown numericUpDownCidr;
         private ColorTextBox tbResults;
         private Button buttonCopyClipboard;
         private Button buttonCopySelected;
         private Button buttonSaveFile;
+        private Label labelVersion;
     }
 }

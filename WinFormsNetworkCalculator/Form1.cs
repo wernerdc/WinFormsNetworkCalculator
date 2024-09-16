@@ -7,7 +7,7 @@ namespace WinFormsNetworkCalculator
         // list to save/load the items later (XML/DB)
         private List<IP4Subnet> _addresses = new();
         // tempoary ip calculation for cidr updates
-        private IP4Subnet _currentSubnet;
+        private IP4Subnet? _currentSubnet;
 
         public Form1()
         {
@@ -36,7 +36,7 @@ namespace WinFormsNetworkCalculator
             }
 
             // add subnet to list
-            _addresses.Add(_currentSubnet);
+            _addresses.Add(_currentSubnet!);        // ! = _currentSubnet will never be null
         }
 
         private void numericUpDownCidr_ValueChanged(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace WinFormsNetworkCalculator
 
         private void buttonCopyClipboard_Click(object sender, EventArgs e)
         {
-            CopyResultsToClipboard(tbResults.Text, tbResults.Rtf);
+            CopyResultsToClipboard(tbResults.Text, tbResults.Rtf ?? "");        // ?? check for !null
         }
 
         private void buttonCopySelected_Click(object sender, EventArgs e)
@@ -97,48 +97,28 @@ namespace WinFormsNetworkCalculator
             Clipboard.SetDataObject(dtoResults);
         }
 
-        private void SaveResultsToFile()
-        {
-            Stream myStream;
-            //StreamWriter myStreamWriter;
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
-            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                if ((myStream = saveFileDialog1.OpenFile()) != null)
-                {
-                    //saveFileDialog1.FilterIndex;
-                    tbResults.SaveFile(myStream, RichTextBoxStreamType.PlainText);
-                    
-                    myStream.Close();
-                }
-            }
-
-            //if (!File.Exists("FILENAME.txt")) // If file does not exists
-            //{
-            //    File.Create("FILENAME.txt").Close(); // Create file
-            //    using (StreamWriter sw = File.AppendText("FILENAME.txt"))
-            //    {
-            //        sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
-            //    }
-            //}
-            //else // If file already exists
-            //{
-            //    File.WriteAllText("FILENAME.txt", String.Empty); // Clear file
-            //    using (StreamWriter sw = File.AppendText("FILENAME.txt"))
-            //    {
-            //        sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
-            //    }
-            //}
-        }
-
         private void buttonSaveFile_Click(object sender, EventArgs e)
         {
-            SaveResultsToFile();
+            Stream fileStream;
+            //StreamWriter myStreamWriter;
+            SaveFileDialog saveDialog = new();
+
+            saveDialog.Filter = "txt files (*.txt)|*.txt|Rich text files (*.rtf)|*.rtf|All files (*.*)|*.*";
+            saveDialog.FilterIndex = 1;
+            saveDialog.RestoreDirectory = true;
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                if ((fileStream = saveDialog.OpenFile()) != null)
+                {
+                    if (saveDialog.FilterIndex == 2)
+                        tbResults.SaveFile(fileStream, RichTextBoxStreamType.RichText);
+                    else
+                        tbResults.SaveFile(fileStream, RichTextBoxStreamType.PlainText);
+
+                    fileStream.Close();
+                }
+            }
         }
     }
 }
