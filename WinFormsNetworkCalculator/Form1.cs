@@ -99,22 +99,46 @@ namespace WinFormsNetworkCalculator
 
         private void SaveResultsToFile()
         {
-            if (!File.Exists("FILENAME.txt")) // If file does not exists
+            Stream myStream;
+            //StreamWriter myStreamWriter;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                File.Create("FILENAME.txt").Close(); // Create file
-                using (StreamWriter sw = File.AppendText("FILENAME.txt"))
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
-                    sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
+                    //saveFileDialog1.FilterIndex;
+                    tbResults.SaveFile(myStream, RichTextBoxStreamType.PlainText);
+                    
+                    myStream.Close();
                 }
             }
-            else // If file already exists
-            {
-                // File.WriteAllText("FILENAME.txt", String.Empty); // Clear file
-                using (StreamWriter sw = File.AppendText("FILENAME.txt"))
-                {
-                    sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
-                }
-            }
+
+            //if (!File.Exists("FILENAME.txt")) // If file does not exists
+            //{
+            //    File.Create("FILENAME.txt").Close(); // Create file
+            //    using (StreamWriter sw = File.AppendText("FILENAME.txt"))
+            //    {
+            //        sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
+            //    }
+            //}
+            //else // If file already exists
+            //{
+            //    File.WriteAllText("FILENAME.txt", String.Empty); // Clear file
+            //    using (StreamWriter sw = File.AppendText("FILENAME.txt"))
+            //    {
+            //        sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
+            //    }
+            //}
+        }
+
+        private void buttonSaveFile_Click(object sender, EventArgs e)
+        {
+            SaveResultsToFile();
         }
     }
 }

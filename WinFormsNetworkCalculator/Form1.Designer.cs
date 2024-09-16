@@ -71,9 +71,10 @@
             buttonSaveFile.Location = new Point(406, 85);
             buttonSaveFile.Name = "buttonSaveFile";
             buttonSaveFile.Size = new Size(97, 23);
-            buttonSaveFile.TabIndex = 10;
+            buttonSaveFile.TabIndex = 6;
             buttonSaveFile.Text = "Save as...";
             buttonSaveFile.UseVisualStyleBackColor = true;
+            buttonSaveFile.Click += buttonSaveFile_Click;
             // 
             // buttonCopySelected
             // 
