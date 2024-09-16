@@ -50,6 +50,16 @@ namespace WinFormsNetworkCalculator
             UpdateResults();
         }
 
+        private void buttonCopyClipboard_Click(object sender, EventArgs e)
+        {
+            CopyResultsToClipboard(tbResults.Text, tbResults.Rtf);
+        }
+
+        private void buttonCopySelected_Click(object sender, EventArgs e)
+        {
+            CopyResultsToClipboard(tbResults.SelectedText, tbResults.SelectedRtf);
+        }
+
         private void UpdateNetmaskPreview()
         {
             IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
@@ -76,24 +86,35 @@ namespace WinFormsNetworkCalculator
             return true;
         }
 
-        private void buttonCopyClipboard_Click(object sender, EventArgs e)
+
+        private void CopyResultsToClipboard(in string text, in string rtfText)
         {
             // Add the textBox data in various formats.
             DataObject dtoResults = new DataObject();
-            dtoResults.SetData(DataFormats.Rtf, true, tbResults.Rtf);
-            dtoResults.SetData(DataFormats.Text, true, tbResults.Text);
+            dtoResults.SetData(DataFormats.Rtf, true, rtfText);
+            dtoResults.SetData(DataFormats.Text, true, text);
             // Place the data in the Clipboard.
             Clipboard.SetDataObject(dtoResults);
         }
 
-        private void buttonCopySelected_Click(object sender, EventArgs e)
+        private void SaveResultsToFile()
         {
-            // Add the textBox data in various formats.
-            DataObject dtoResults = new DataObject();
-            dtoResults.SetData(DataFormats.Rtf, true, tbResults.SelectedRtf);
-            dtoResults.SetData(DataFormats.Text, true, tbResults.SelectedText);
-            // Place the data in the Clipboard.
-            Clipboard.SetDataObject(dtoResults);
+            if (!File.Exists("FILENAME.txt")) // If file does not exists
+            {
+                File.Create("FILENAME.txt").Close(); // Create file
+                using (StreamWriter sw = File.AppendText("FILENAME.txt"))
+                {
+                    sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
+                }
+            }
+            else // If file already exists
+            {
+                // File.WriteAllText("FILENAME.txt", String.Empty); // Clear file
+                using (StreamWriter sw = File.AppendText("FILENAME.txt"))
+                {
+                    sw.WriteLine("WRITE SOME TEXT"); // Write text to .txt file
+                }
+            }
         }
     }
 }
