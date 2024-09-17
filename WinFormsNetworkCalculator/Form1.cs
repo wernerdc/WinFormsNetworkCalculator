@@ -52,12 +52,12 @@ namespace WinFormsNetworkCalculator
 
         private void buttonCopyClipboard_Click(object sender, EventArgs e)
         {
-            CopyResultsToClipboard(tbResults.Text, tbResults.Rtf ?? "");        // ?? check for !null
+            CopyToClipboard(tbResults.Text, tbResults.Rtf ?? "");        // ?? check for !null
         }
 
         private void buttonCopySelected_Click(object sender, EventArgs e)
         {
-            CopyResultsToClipboard(tbResults.SelectedText, tbResults.SelectedRtf);
+            CopyToClipboard(tbResults.SelectedText, tbResults.SelectedRtf);
         }
 
         private void UpdateNetmaskPreview()
@@ -87,28 +87,28 @@ namespace WinFormsNetworkCalculator
         }
 
 
-        private void CopyResultsToClipboard(in string text, in string rtfText)
+        private void CopyToClipboard(in string text, in string rtfText)
         {
             // Add the textBox data in various formats.
             DataObject dtoResults = new DataObject();
             dtoResults.SetData(DataFormats.Rtf, true, rtfText);
             dtoResults.SetData(DataFormats.Text, true, text);
-            // Place the data in the Clipboard.
+            // put the data into the clipboard
             Clipboard.SetDataObject(dtoResults);
         }
 
         private void buttonSaveFile_Click(object sender, EventArgs e)
         {
             Stream fileStream;
-            //StreamWriter myStreamWriter;
             SaveFileDialog saveDialog = new();
-
+            // list of file types, FilterIndex is starting here at 1
             saveDialog.Filter = "txt files (*.txt)|*.txt|Rich text files (*.rtf)|*.rtf|All files (*.*)|*.*";
             saveDialog.FilterIndex = 1;
             saveDialog.RestoreDirectory = true;
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
+                // try to use selected file(name), if successful it returns a stream pointing to that file
                 if ((fileStream = saveDialog.OpenFile()) != null)
                 {
                     if (saveDialog.FilterIndex == 2)
