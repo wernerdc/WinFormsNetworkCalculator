@@ -6,7 +6,7 @@ namespace WinFormsNetworkCalculator
     {
         // list to save/load the items later (XML/DB)
         private List<IP4Subnet> _addresses = new();
-        // tempoary ip calculation for cidr updates
+        // temporary ip calculation for cidr/ip updates
         private IP4Subnet? _currentSubnet;
 
         public Form1()
@@ -108,7 +108,7 @@ namespace WinFormsNetworkCalculator
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                // try to use selected file(name), if successful it returns a stream pointing to that file
+                // try to use selected file(name), if successful it returns a data stream pointing to that file
                 if ((fileStream = saveDialog.OpenFile()) != null)
                 {
                     if (saveDialog.FilterIndex == 2)
