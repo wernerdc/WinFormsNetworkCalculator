@@ -51,6 +51,41 @@ namespace WinFormsNetworkCalculator
                 hosts = Convert.ToUInt32(Math.Pow(2, 32 - cidr) - 2);
             return hosts;
         }
-    }
 
+        // static methods
+        //°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+        /// <summary>
+        /// Prüft ob die Zeichenkette eine gültige IP4-Adresse
+        /// in dezimaler Oktett-Darstellung ist.
+        /// </summary>
+        /// <param name="strDezOctet"></param>
+        /// <returns></returns>
+        public static bool CheckSubnetDezOctet(string strDezOctet)
+        {
+            if (!strDezOctet.Contains("."))
+                return false;
+            string[] strParts = strDezOctet.Split(new string[] { "." },
+                    StringSplitOptions.RemoveEmptyEntries);
+            if (strParts.Length != 4)
+                return false;
+            for (int i = 0; i < strParts.Length; i++)
+            {
+                string strDez = strParts[i];
+                strDez = strDez.Trim();
+                byte bTest;
+                if (!Byte.TryParse(strDez, out bTest))
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool checkNetmaskBinary(string[] strDezParts)
+        {
+            //string binaryString = 
+
+
+            return true;
+        }
+    }
 }

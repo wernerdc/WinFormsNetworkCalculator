@@ -158,7 +158,6 @@
             // textBoxSubnetmaskDez
             // 
             textBoxSubnetmaskDez.BackColor = Color.FromArgb(248, 248, 248);
-            textBoxSubnetmaskDez.Enabled = false;
             textBoxSubnetmaskDez.Font = new Font("Consolas", 9F);
             textBoxSubnetmaskDez.Location = new Point(12, 85);
             textBoxSubnetmaskDez.Name = "textBoxSubnetmaskDez";
