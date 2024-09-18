@@ -16,7 +16,11 @@ namespace WinFormsNetworkCalculator
             Cidr = cidr;
             Hosts = GetHosts(cidr);
         }
-        
+        public IP4Netmask(string dezOctet) : base(dezOctet) {
+            Cidr = GetCidrFromDez(this.Address);
+            Hosts = GetHosts(Cidr);
+        }
+
         // auto properties, getters only
         public int Cidr { get; }
         public uint Hosts { get; }
@@ -37,6 +41,17 @@ namespace WinFormsNetworkCalculator
                     lDez = lDez * 2;
             }
             return lDez;
+        }
+
+        /// <summary>
+        /// Bestimme das CIDR-Suffix aus der 32 Bit Dezimal Adresse
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        private int GetCidrFromDez(uint address)
+        {
+            string netmaskBin = $"{address:B32}";
+            return netmaskBin.IndexOf('0');
         }
 
         /// <summary>
@@ -61,7 +76,7 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="strDezOctet"></param>
         /// <returns></returns>
-        public static bool CheckSubnetDezOctet(string strDezOctet)
+        public static new bool CheckDezOctet(string strDezOctet)        // new hides derived member method from IP4Address
         {
             if (!strDezOctet.Contains("."))
                 return false;
@@ -69,6 +84,7 @@ namespace WinFormsNetworkCalculator
                     StringSplitOptions.RemoveEmptyEntries);
             if (strParts.Length != 4)
                 return false;
+            string strBin = "";
             for (int i = 0; i < strParts.Length; i++)
             {
                 string strDez = strParts[i];
@@ -76,16 +92,11 @@ namespace WinFormsNetworkCalculator
                 byte bTest;
                 if (!Byte.TryParse(strDez, out bTest))
                     return false;
+                // get binary netmask from byte-parts
+                strBin += $"{bTest:B8}";
             }
-            return true;
-        }
-
-        private static bool checkNetmaskBinary(string[] strDezParts)
-        {
-            //string binaryString = 
-
-
-            return true;
+            // check if hostID has invalid bits set to 1
+            return !strBin.Contains("01");
         }
     }
 }

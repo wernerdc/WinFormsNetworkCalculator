@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 
 namespace WinFormsNetworkCalculator
@@ -15,7 +16,7 @@ namespace WinFormsNetworkCalculator
             textBoxAddress.Text = "192.168.87.85";
             numericUpDownCidr.Value = 24;
 
-            // set netmask preview from numericalUpDown
+            // set netmaskOctet preview from numericalUpDown
             UpdateNetmaskPreview();
 
             // set tbResults preview from textBoxAddress
@@ -27,11 +28,11 @@ namespace WinFormsNetworkCalculator
             string ipAddress = textBoxAddress.Text;
             int cidr = decimal.ToInt32(numericUpDownCidr.Value);
 
-            // check if IPv4 address is invalid -> exit method
+            // check if IPv4 tbText is invalid -> exit method
             if (!UpdateResults())
             {
                 tbResults.Clear();
-                tbResults.WriteLine("Invalid IPv4 address!");
+                tbResults.WriteLine("Invalid IPv4 Address!");
                 return;
             }
 
@@ -47,16 +48,23 @@ namespace WinFormsNetworkCalculator
 
         private void textBoxAddress_TextChanged(object sender, EventArgs e)
         {
-            // allow comma ',' and replace is with the dot '.' char
-            if (textBoxAddress.Text.Contains(','))
-            {
-                int cursorPosition = textBoxAddress.SelectionStart;
-                string address = textBoxAddress.Text.Replace(',', '.');
-                textBoxAddress.Text = address;
-                textBoxAddress.SelectionStart = cursorPosition;
-            }
-
+            InputReplaceComma(textBoxAddress);
             UpdateResults();
+        }
+
+        private void textBoxSubnetmaskDez_TextChanged(object sender, EventArgs e)
+        {
+            InputReplaceComma(textBoxSubnetmaskDez);
+
+            string netmaskOctet = textBoxSubnetmaskDez.Text;
+            if (!IP4Netmask.CheckDezOctet(netmaskOctet))
+            {
+                textBoxSubnetmaskDez.BackColor = ColorTranslator.FromHtml("#FFE1E8");
+                return;
+            }
+            textBoxSubnetmaskDez.BackColor = SystemColors.Window;
+            IP4Netmask netmask = new IP4Netmask(netmaskOctet);
+            numericUpDownCidr.Value = netmask.Cidr;
         }
 
         private void buttonCopyClipboard_Click(object sender, EventArgs e)
@@ -69,49 +77,12 @@ namespace WinFormsNetworkCalculator
             CopyToClipboard(tbResults.SelectedText, tbResults.SelectedRtf);
         }
 
-        private void UpdateNetmaskPreview()
-        {
-            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
-            textBoxSubnetmaskDez.Text = cidr.DezOctet;
-            textBoxSubnetmaskBin.Text = cidr.BinOctet;
-        }
-
-        private bool UpdateResults()
-        {
-            string ipAddress = textBoxAddress.Text;
-            // check if IPv4 address is invalid -> exit method
-            if (!IP4Address.CheckDezOctet(ipAddress))
-            {
-                //textBoxAddress.BackColor = Color.FromArgb(249, 206, 218);
-                textBoxAddress.BackColor = ColorTranslator.FromHtml("#FFE1E8");
-                return false;
-            }
-
-            int cidr = decimal.ToInt32(numericUpDownCidr.Value);
-            _currentSubnet = new IP4Subnet(ipAddress, cidr);
-            tbResults.ShowSubnet(_currentSubnet);
-
-            textBoxAddress.BackColor = SystemColors.Window;
-            return true;
-        }
-
-
-        private void CopyToClipboard(in string text, in string rtfText)
-        {
-            // Add the textBox data in various formats.
-            DataObject dtoResults = new DataObject();
-            dtoResults.SetData(DataFormats.Rtf, true, rtfText);
-            dtoResults.SetData(DataFormats.Text, true, text);
-            // put the data into the clipboard
-            Clipboard.SetDataObject(dtoResults);
-        }
-
         private void buttonSaveFile_Click(object sender, EventArgs e)
         {
             Stream fileStream;
             SaveFileDialog saveDialog = new();
             // list of file types, FilterIndex is starting here at 1
-            saveDialog.Filter = "txt files (*.txt)|*.txt|Rich text files (*.rtf)|*.rtf|All files (*.*)|*.*";
+            saveDialog.Filter = "txt files (*.txt)|*.txt|Rich tbText files (*.rtf)|*.rtf|All files (*.*)|*.*";
             saveDialog.FilterIndex = 1;
             saveDialog.RestoreDirectory = true;
 
@@ -127,6 +98,56 @@ namespace WinFormsNetworkCalculator
 
                     fileStream.Close();
                 }
+            }
+        }
+
+        private void UpdateNetmaskPreview()
+        {
+            IP4Netmask cidr = new IP4Netmask(decimal.ToInt32(numericUpDownCidr.Value));
+            if (textBoxSubnetmaskDez.Text != cidr.DezOctet.Replace(" ", String.Empty))
+                textBoxSubnetmaskDez.Text = cidr.DezOctet;
+            textBoxSubnetmaskBin.Text = cidr.BinOctet;
+        }
+
+        private bool UpdateResults()
+        {
+            string ipAddress = textBoxAddress.Text;
+            // check if IPv4 tbText is invalid -> exit method
+            if (!IP4Address.CheckDezOctet(ipAddress))
+            {
+                //textBoxAddress.BackColor = Color.FromArgb(249, 206, 218);
+                textBoxAddress.BackColor = ColorTranslator.FromHtml("#FFE1E8");
+                return false;
+            }
+
+            int cidr = decimal.ToInt32(numericUpDownCidr.Value);
+            _currentSubnet = new IP4Subnet(ipAddress, cidr);
+            tbResults.ShowSubnet(_currentSubnet);
+
+            textBoxAddress.BackColor = SystemColors.Window;
+            return true;
+        }
+
+        private void CopyToClipboard(in string text, in string rtfText)
+        {
+            // Add the textBox data in various formats.
+            DataObject dtoResults = new DataObject();
+            dtoResults.SetData(DataFormats.Rtf, true, rtfText);
+            dtoResults.SetData(DataFormats.Text, true, text);
+            // put the data into the clipboard
+            Clipboard.SetDataObject(dtoResults);
+        }
+
+        private void InputReplaceComma(TextBox textBox)
+        {
+            // allow comma ',' and replace it with the dot '.' char
+            // also remove whitespaces
+            if (textBox.Text.Contains(',') || textBox.Text.Contains(' '))
+            {
+                int cursorPosition = textBox.SelectionStart;
+                string tbText = textBox.Text.Replace(',', '.').Replace(" ", String.Empty);
+                textBox.Text = tbText;
+                textBox.SelectionStart = cursorPosition;
             }
         }
     }

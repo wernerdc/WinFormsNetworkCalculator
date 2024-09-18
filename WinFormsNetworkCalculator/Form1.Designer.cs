@@ -50,7 +50,7 @@
             // panel1
             // 
             panel1.AutoSize = true;
-            panel1.BackColor = SystemColors.ControlLight;
+            panel1.BackColor = Color.Gainsboro;
             panel1.Controls.Add(labelVersion);
             panel1.Controls.Add(buttonSaveFile);
             panel1.Controls.Add(buttonCopySelected);
@@ -87,7 +87,7 @@
             buttonSaveFile.Location = new Point(402, 85);
             buttonSaveFile.Name = "buttonSaveFile";
             buttonSaveFile.Size = new Size(101, 23);
-            buttonSaveFile.TabIndex = 6;
+            buttonSaveFile.TabIndex = 7;
             buttonSaveFile.Text = "Save as...";
             buttonSaveFile.UseVisualStyleBackColor = true;
             buttonSaveFile.Click += buttonSaveFile_Click;
@@ -97,7 +97,7 @@
             buttonCopySelected.Location = new Point(402, 56);
             buttonCopySelected.Name = "buttonCopySelected";
             buttonCopySelected.Size = new Size(101, 23);
-            buttonCopySelected.TabIndex = 5;
+            buttonCopySelected.TabIndex = 6;
             buttonCopySelected.Text = "Copy selected";
             buttonCopySelected.UseVisualStyleBackColor = true;
             buttonCopySelected.Click += buttonCopySelected_Click;
@@ -107,7 +107,7 @@
             buttonCopyClipboard.Location = new Point(402, 27);
             buttonCopyClipboard.Name = "buttonCopyClipboard";
             buttonCopyClipboard.Size = new Size(101, 23);
-            buttonCopyClipboard.TabIndex = 4;
+            buttonCopyClipboard.TabIndex = 5;
             buttonCopyClipboard.Text = "Copy text";
             buttonCopyClipboard.UseVisualStyleBackColor = true;
             buttonCopyClipboard.Click += buttonCopyClipboard_Click;
@@ -122,7 +122,7 @@
             tbResults.Name = "tbResults";
             tbResults.ReadOnly = true;
             tbResults.Size = new Size(515, 159);
-            tbResults.TabIndex = 6;
+            tbResults.TabIndex = 8;
             tbResults.Text = "";
             // 
             // numericUpDownCidr
@@ -143,6 +143,7 @@
             textBoxSubnetmaskBin.Font = new Font("Consolas", 9F);
             textBoxSubnetmaskBin.Location = new Point(136, 85);
             textBoxSubnetmaskBin.Name = "textBoxSubnetmaskBin";
+            textBoxSubnetmaskBin.ReadOnly = true;
             textBoxSubnetmaskBin.Size = new Size(260, 22);
             textBoxSubnetmaskBin.TabIndex = 9;
             // 
@@ -157,12 +158,12 @@
             // 
             // textBoxSubnetmaskDez
             // 
-            textBoxSubnetmaskDez.BackColor = Color.FromArgb(248, 248, 248);
             textBoxSubnetmaskDez.Font = new Font("Consolas", 9F);
             textBoxSubnetmaskDez.Location = new Point(12, 85);
             textBoxSubnetmaskDez.Name = "textBoxSubnetmaskDez";
             textBoxSubnetmaskDez.Size = new Size(118, 22);
-            textBoxSubnetmaskDez.TabIndex = 7;
+            textBoxSubnetmaskDez.TabIndex = 4;
+            textBoxSubnetmaskDez.TextChanged += textBoxSubnetmaskDez_TextChanged;
             // 
             // labelCidr
             // 
@@ -194,7 +195,6 @@
             // 
             // textBoxAddress
             // 
-            textBoxAddress.BackColor = SystemColors.Window;
             textBoxAddress.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBoxAddress.Location = new Point(12, 27);
             textBoxAddress.Name = "textBoxAddress";
