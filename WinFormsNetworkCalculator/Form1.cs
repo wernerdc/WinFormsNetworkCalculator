@@ -47,6 +47,15 @@ namespace WinFormsNetworkCalculator
 
         private void textBoxAddress_TextChanged(object sender, EventArgs e)
         {
+            // allow comma ',' and replace is with the dot '.' char
+            if (textBoxAddress.Text.Contains(','))
+            {
+                int cursorPosition = textBoxAddress.SelectionStart;
+                string address = textBoxAddress.Text.Replace(',', '.');
+                textBoxAddress.Text = address;
+                textBoxAddress.SelectionStart = cursorPosition;
+            }
+
             UpdateResults();
         }
 
