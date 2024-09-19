@@ -50,7 +50,7 @@ namespace WinFormsNetworkCalculator
             
             // description / 1. column
             SelectionColor = colors[column1Color];
-            AppendText($"\n   {description,11}");
+            AppendText($"\n  {description,11}");
 
             // decimal octet / 2. column
             SelectionColor = colors[column2Color];

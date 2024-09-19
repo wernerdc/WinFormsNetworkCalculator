@@ -78,10 +78,9 @@ namespace WinFormsNetworkCalculator
         /// <returns></returns>
         public static new bool CheckDezOctet(string strDezOctet)        // "new" hides derived member method from IP4Address
         {
-            if (!strDezOctet.Contains("."))
+            if (!strDezOctet.Contains('.'))
                 return false;
-            string[] strParts = strDezOctet.Split(new string[] { "." },
-                    StringSplitOptions.RemoveEmptyEntries);
+            string[] strParts = strDezOctet.Split('.');
             if (strParts.Length != 4)
                 return false;
             string strBin = "";
@@ -92,7 +91,7 @@ namespace WinFormsNetworkCalculator
                 byte bTest;
                 if (!Byte.TryParse(strDez, out bTest))
                     return false;
-                // get binary netmask from byte-parts
+                // concat binary netmask from byte-parts
                 strBin += $"{bTest:B8}";
             }
             // check if hostID has invalid bits set to 1

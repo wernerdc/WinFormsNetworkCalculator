@@ -106,10 +106,9 @@ namespace WinFormsNetworkCalculator
         /// <returns></returns>
         public static bool CheckDezOctet(string strDezOctet)
         {
-            if (!strDezOctet.Contains("."))
+            if (!strDezOctet.Contains('.'))
                 return false;
-            string[] strParts = strDezOctet.Split(new string[] { "." },
-                    StringSplitOptions.RemoveEmptyEntries);
+            string[] strParts = strDezOctet.Split('.');
             if (strParts.Length != 4)
                 return false;
             for (int i = 0; i < strParts.Length; i++)

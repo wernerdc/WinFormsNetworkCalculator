@@ -67,7 +67,7 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(515, 277);
+            panel1.Size = new Size(644, 328);
             panel1.TabIndex = 0;
             // 
             // labelVersion
@@ -76,7 +76,7 @@
             labelVersion.BackColor = SystemColors.Window;
             labelVersion.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelVersion.ForeColor = SystemColors.ScrollBar;
-            labelVersion.Location = new Point(486, 260);
+            labelVersion.Location = new Point(617, 312);
             labelVersion.Name = "labelVersion";
             labelVersion.Size = new Size(27, 13);
             labelVersion.TabIndex = 17;
@@ -84,7 +84,7 @@
             // 
             // buttonSaveFile
             // 
-            buttonSaveFile.Location = new Point(402, 85);
+            buttonSaveFile.Location = new Point(531, 85);
             buttonSaveFile.Name = "buttonSaveFile";
             buttonSaveFile.Size = new Size(101, 23);
             buttonSaveFile.TabIndex = 7;
@@ -94,7 +94,7 @@
             // 
             // buttonCopySelected
             // 
-            buttonCopySelected.Location = new Point(402, 56);
+            buttonCopySelected.Location = new Point(531, 56);
             buttonCopySelected.Name = "buttonCopySelected";
             buttonCopySelected.Size = new Size(101, 23);
             buttonCopySelected.TabIndex = 6;
@@ -104,7 +104,7 @@
             // 
             // buttonCopyClipboard
             // 
-            buttonCopyClipboard.Location = new Point(402, 27);
+            buttonCopyClipboard.Location = new Point(531, 27);
             buttonCopyClipboard.Name = "buttonCopyClipboard";
             buttonCopyClipboard.Size = new Size(101, 23);
             buttonCopyClipboard.TabIndex = 5;
@@ -117,11 +117,11 @@
             tbResults.BackColor = SystemColors.Window;
             tbResults.BorderStyle = BorderStyle.None;
             tbResults.Dock = DockStyle.Bottom;
-            tbResults.Font = new Font("Consolas", 9F);
-            tbResults.Location = new Point(0, 118);
+            tbResults.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tbResults.Location = new Point(0, 120);
             tbResults.Name = "tbResults";
             tbResults.ReadOnly = true;
-            tbResults.Size = new Size(515, 159);
+            tbResults.Size = new Size(644, 208);
             tbResults.TabIndex = 8;
             tbResults.Text = "";
             // 
@@ -207,7 +207,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(515, 277);
+            ClientSize = new Size(644, 328);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");

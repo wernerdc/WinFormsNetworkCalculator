@@ -145,6 +145,9 @@ namespace WinFormsNetworkCalculator
             if (textBox.Text.Contains(',') || textBox.Text.Contains(' '))
             {
                 int cursorPosition = textBox.SelectionStart;
+                if (textBox.Text.Contains(' ') && cursorPosition != 0) 
+                    cursorPosition--;
+
                 string tbText = textBox.Text.Replace(',', '.').Replace(" ", String.Empty);
                 textBox.Text = tbText;
                 textBox.SelectionStart = cursorPosition;
