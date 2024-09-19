@@ -51,7 +51,7 @@ namespace WinFormsNetworkCalculator
         private int GetCidrFromDez(uint address)
         {
             string netmaskBin = $"{address:B32}";
-            return netmaskBin.IndexOf('0');
+            return (netmaskBin.Contains('0')) ? netmaskBin.IndexOf('0') : 32;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace WinFormsNetworkCalculator
         /// </summary>
         /// <param name="strDezOctet"></param>
         /// <returns></returns>
-        public static new bool CheckDezOctet(string strDezOctet)        // new hides derived member method from IP4Address
+        public static new bool CheckDezOctet(string strDezOctet)        // "new" hides derived member method from IP4Address
         {
             if (!strDezOctet.Contains("."))
                 return false;
