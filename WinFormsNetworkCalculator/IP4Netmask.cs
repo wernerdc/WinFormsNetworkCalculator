@@ -92,7 +92,8 @@ namespace WinFormsNetworkCalculator
                 if (!Byte.TryParse(strDez, out bTest))
                     return false;
                 // concat binary netmask from byte-parts
-                strBin += $"{bTest:B8}";
+                strBin += $"{bTest:B8}";            // String interpolation: (:B8) convert number to binary notation with
+                                                    // the length of 8 bits
             }
             // check if hostID has invalid bits set to 1
             return !strBin.Contains("01");

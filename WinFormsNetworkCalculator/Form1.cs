@@ -25,9 +25,6 @@ namespace WinFormsNetworkCalculator
 
         private void buttonCalculateNetwork_Click(object sender, EventArgs e)
         {
-            string ipAddress = textBoxAddress.Text;
-            int cidr = decimal.ToInt32(numericUpDownCidr.Value);
-
             // check if IPv4 tbText is invalid -> exit method
             if (!UpdateResults())
             {
