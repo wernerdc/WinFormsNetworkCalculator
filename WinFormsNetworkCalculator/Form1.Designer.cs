@@ -80,7 +80,7 @@
             labelVersion.Name = "labelVersion";
             labelVersion.Size = new Size(27, 13);
             labelVersion.TabIndex = 17;
-            labelVersion.Text = "v0.2";
+            labelVersion.Text = "v0.3";
             // 
             // buttonSaveFile
             // 
