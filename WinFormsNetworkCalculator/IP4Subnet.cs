@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace WinFormsNetworkCalculator
 {
-    internal class IP4Subnet : IP4Address
+    internal class IP4Subnet
     {
-        public IP4Subnet(string ipDezOctet, int cidr) : base(ipDezOctet)
+        public IP4Subnet(string ipDezOctet, int cidr)
         {
+            IP = new IP4Address(ipDezOctet);
             Netmask = new IP4Netmask(cidr);
             Wildcard = new IP4Address(GetWildcardDez());
             NetId = new IP4Address(GetNetIdDez());
@@ -19,6 +20,7 @@ namespace WinFormsNetworkCalculator
         }
 
         // auto properties, getters only
+        public IP4Address IP { get; }
         public IP4Netmask Netmask { get; }
         public IP4Address Wildcard { get; }
         public IP4Address NetId { get; }
@@ -46,14 +48,14 @@ namespace WinFormsNetworkCalculator
         {
             // Logical AND operator &
             // The & operator computes the bitwise logical AND of its integral operands:
-            return this.Address & Netmask.Address;
+            return IP.Address & Netmask.Address;
         }
 
         private uint GetBroadcastDez()
         {
             // Logical OR operator |
             // The | operator computes the bitwise logical OR of its integral operands:
-            return this.Address | Wildcard.Address;
+            return IP.Address | Wildcard.Address;
         }
 
         private uint GetHostMin(int cidr)

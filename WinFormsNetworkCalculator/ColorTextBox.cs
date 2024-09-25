@@ -26,8 +26,8 @@ namespace WinFormsNetworkCalculator
             int broadNetColor = (cidr == 32) ? 2 : 0;
 
             // fill richTextBox
-            WriteLine("CIDR:", cidr.ToString(), "Network prefix              Host ID", 8, 1, 1);
-            WriteLine("IP Address:", subnet,           hostLength);             // -> IP4Subnet  derives from IP4Address, so it can be used here as IP4Address type
+            WriteLine("CIDR:",       cidr.ToString(),  "Network prefix              Host ID", 8, 1, 1);
+            WriteLine("IP Address:", subnet.IP,        hostLength);             
             WriteLine("Netmask:",    subnet.Netmask,   hostLength, 1, 1);       // -> IP4Netmask derives from IP4Address, so it can be used here as IP4Address type
             WriteLine("Wildcard:",   subnet.Wildcard,  hostLength, 2, 2);
             WriteLine("NetAddress:", subnet.NetId,     hostLength, 0, broadNetColor);

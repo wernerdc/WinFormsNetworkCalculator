@@ -32,15 +32,15 @@ namespace WinFormsNetworkCalculator
         /// <returns></returns>
         private uint GetNetmaskDez(int cidr)
         {
-            uint lDez = 0;
+            uint dez = 0;
             for (int i = 0; i < 32; i++)
             {
                 if (i < cidr)
-                    lDez = lDez * 2 + 1;
+                    dez = dez * 2 + 1;
                 else
-                    lDez = lDez * 2;
+                    dez = dez * 2;
             }
-            return lDez;
+            return dez;
         }
 
         /// <summary>
@@ -51,7 +51,8 @@ namespace WinFormsNetworkCalculator
         private int GetCidrFromDez(uint address)
         {
             string netmaskBin = $"{address:B32}";
-            return (netmaskBin.Contains('0')) ? netmaskBin.IndexOf('0') : 32;
+            int cidr = (netmaskBin.Contains('0')) ? netmaskBin.IndexOf('0') : 32;
+            return cidr;
         }
 
         /// <summary>
@@ -92,8 +93,8 @@ namespace WinFormsNetworkCalculator
                 if (!Byte.TryParse(strDez, out bTest))
                     return false;
                 // concat binary netmask from byte-parts
-                strBin += $"{bTest:B8}";            // String interpolation: (:B8) convert number to binary notation with
-                                                    // the length of 8 bits
+                strBin += $"{bTest:B8}";            // String interpolation (:B8) converts a number/byte to
+                                                    // binary notation with a length of 8 bits
             }
             // check if hostID has invalid bits set to 1
             return !strBin.Contains("01");

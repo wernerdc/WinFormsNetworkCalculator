@@ -18,8 +18,7 @@ namespace WinFormsNetworkCalculator
 
             // set netmaskOctet preview from numericalUpDown
             UpdateNetmaskPreview();
-
-            // set tbResults preview from textBoxAddress
+            // set tbResults preview from IP address
             UpdateResults();
         }
 
@@ -32,7 +31,6 @@ namespace WinFormsNetworkCalculator
                 tbResults.WriteLine("Invalid IPv4 Address!");
                 return;
             }
-
             // add subnet to list
             _addresses.Add(_currentSubnet!);        // ! = _currentSubnet will never be null
         }
@@ -145,8 +143,7 @@ namespace WinFormsNetworkCalculator
                 if (textBox.Text.Contains(' ') && cursorPosition != 0) 
                     cursorPosition--;
 
-                string tbText = textBox.Text.Replace(',', '.').Replace(" ", String.Empty);
-                textBox.Text = tbText;
+                textBox.Text = textBox.Text.Replace(',', '.').Replace(" ", String.Empty);
                 textBox.SelectionStart = cursorPosition;
             }
         }
